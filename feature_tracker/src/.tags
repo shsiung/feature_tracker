@@ -1,0 +1,14 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+first_image_flag	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^bool first_image_flag = true;$/;"	v	language:C++
+first_image_time	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^double first_image_time;$/;"	v	language:C++
+img_buf	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^queue<sensor_msgs::ImageConstPtr> img_buf;$/;"	v	language:C++
+img_callback	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^void img_callback(const sensor_msgs::ImageConstPtr &img_msg)$/;"	f	language:C++
+main	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^int main(int argc, char **argv)$/;"	f	language:C++
+pub_count	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^int pub_count = 1;$/;"	v	language:C++
+pub_img	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^ros::Publisher pub_img,pub_match;$/;"	v	language:C++
+pub_match	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^ros::Publisher pub_img,pub_match;$/;"	v	language:C++
+r_err	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^vector<float> r_err;$/;"	v	language:C++
+r_status	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^vector<uchar> r_status;$/;"	v	language:C++
+SHOW_UNDISTORTION	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	14;"	d	language:C++	file:
+test	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^void test(const sensor_msgs::ImageConstPtr& msgLeft, const sensor_msgs::ImageConstPtr& msgRight)$/;"	f	language:C++
+trackerData	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^FeatureTracker trackerData[NUM_OF_CAM];$/;"	v	language:C++
