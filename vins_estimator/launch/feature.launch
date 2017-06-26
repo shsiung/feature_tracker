@@ -9,7 +9,7 @@
 	<param name="queue_size" value="10"/>
 	</group>
 
-    <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
+    <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="screen">
         <param name="config_file" type="string" value="$(arg config_path)" />
         <param name="config_file1" type="string" value="$(arg config_path1)" />
         <param name="vins_folder" type="string" value="$(arg vins_path)" />
