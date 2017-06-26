@@ -107,7 +107,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
         {
             vector<uchar> status;
             TicToc t_f;
-            cv::findFundamentalMat(ll, rr, cv::FM_RANSAC, 1.0, 0.5, status);
+            cv::findFundamentalMat(ll, rr, cv::FM_RANSAC, 0.5, 0.5, status);
             ROS_DEBUG("find f cost: %f", t_f.toc());
             int r_cnt = 0;
             for (unsigned int i = 0; i < status.size(); i++)
@@ -142,6 +142,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
         feature_points->header.frame_id = "world";
 
         vector<set<int>> hash_ids(NUM_OF_CAM);
+        //std::cout<<"===start"<<std::endl;
         for (int i = 0; i < NUM_OF_CAM; i++)
         {
             if (i != 1 || !STEREO_TRACK)
@@ -164,10 +165,13 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
                     u_of_point.values.push_back(cur_pts[j].x);
                     v_of_point.values.push_back(cur_pts[j].y);
                     ROS_ASSERT(inBorder(cur_pts[j]));
+                    //std::cout<<p_id<<","<<":"<<"["<<p.x<<","<<p.y<<"]"<<std::endl;
                 }
+                std::cout<<std::endl;
             }
             else if (STEREO_TRACK)
             {
+                //std::cout<<"==="<<std::endl;
                 auto r_un_pts = trackerData[1].undistortedPoints();
                 auto &ids = trackerData[0].ids;
                 for (unsigned int j = 0; j < ids.size(); j++)
@@ -183,10 +187,12 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
 
                         feature_points->points.push_back(p);
                         id_of_point.values.push_back(p_id * NUM_OF_CAM + i);
+                        // std::cout<<p_id<<","<<":"<<"["<<p.x<<","<<p.y<<"]"<<std::endl;
                     }
                 }
             }
         }
+        //std::cout<<"===END"<<std::endl;
         feature_points->channels.push_back(id_of_point);
         feature_points->channels.push_back(u_of_point);
         feature_points->channels.push_back(v_of_point);
