@@ -36,9 +36,11 @@ T readParam(ros::NodeHandle &n, std::string name)
 
 void readParameters(ros::NodeHandle &n)
 {
-    std::string config_file;
-    config_file = readParam<std::string>(n, "config_file");
-    cv::FileStorage fsSettings(config_file, cv::FileStorage::READ);
+    std::string config_file_left,config_file_right;
+    config_file_left = readParam<std::string>(n, "config_file");
+    config_file_right = readParam<std::string>(n, "config_file");
+
+    cv::FileStorage fsSettings(config_file_left, cv::FileStorage::READ);
     if(!fsSettings.isOpened())
     {
         std::cerr << "ERROR: Wrong path to settings" << std::endl;
@@ -58,10 +60,11 @@ void readParameters(ros::NodeHandle &n)
     FISHEYE = fsSettings["fisheye"];
     if (FISHEYE == 1)
         FISHEYE_MASK = VINS_FOLDER_PATH + "config/fisheye_mask.jpg";
-    CAM_NAMES.push_back(config_file);
+    CAM_NAMES.push_back(config_file_left);
+    CAM_NAMES.push_back(config_file_right);
 
     WINDOW_SIZE = 20;
-    STEREO_TRACK = false;
+    STEREO_TRACK = true;
     FOCAL_LENGTH = 460;
     PUB_THIS_FRAME = false;
 

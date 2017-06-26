@@ -173,6 +173,8 @@ PinholeCamera::Parameters::readFromYamlFile(const std::string& filename)
     m_p1 = static_cast<double>(n["p1"]);
     m_p2 = static_cast<double>(n["p2"]);
 
+    std::cout << "mk1" << m_k1 << std::endl;
+
     n = fs["projection_parameters"];
     m_fx = static_cast<double>(n["fx"]);
     m_fy = static_cast<double>(n["fy"]);
@@ -281,6 +283,7 @@ PinholeCamera::PinholeCamera(const std::string& cameraName,
         (mParameters.p1() == 0.0) &&
         (mParameters.p2() == 0.0))
     {
+        std::cout << " ============= nodistortion" << std::endl;
         m_noDistortion = true;
     }
     else
@@ -303,6 +306,8 @@ PinholeCamera::PinholeCamera(const PinholeCamera::Parameters& params)
         (mParameters.p1() == 0.0) &&
         (mParameters.p2() == 0.0))
     {
+                std::cout << " ============= nodistortion" << std::endl;
+
         m_noDistortion = true;
     }
     else

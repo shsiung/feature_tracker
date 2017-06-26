@@ -108,11 +108,18 @@ void FeatureTracker::readImage(const cv::Mat &_img)
         TicToc t_o;
         vector<uchar> status;
         vector<float> err;
+
+        // Status will give us infor whether the feature is being tracked
+        // Forw_img is the new image and forw_pts are the "KLT" points.
+        // We will later track more points that are not tracked by KLT
         cv::calcOpticalFlowPyrLK(cur_img, forw_img, cur_pts, forw_pts, status, err, cv::Size(21, 21), 3);
 
         for (int i = 0; i < int(forw_pts.size()); i++)
             if (status[i] && !inBorder(forw_pts[i]))
                 status[i] = 0;
+
+        // Resizing vectors so that only the good status (tracked) features are in the vectors
+        // The remaining features will be tracked/added by KLT
         reduceVector(prev_pts, status);
         reduceVector(cur_pts, status);
         reduceVector(forw_pts, status);
@@ -136,6 +143,8 @@ void FeatureTracker::readImage(const cv::Mat &_img)
         ROS_DEBUG("detect feature begins");
         TicToc t_t;
         int n_max_cnt = MAX_CNT - static_cast<int>(forw_pts.size());
+        // If > 0, meaning not all points are tracked, so we will ty
+        // to track more points
         if (n_max_cnt > 0)
         {
             if(mask.empty())
@@ -144,6 +153,7 @@ void FeatureTracker::readImage(const cv::Mat &_img)
                 cout << "mask type wrong " << endl;
             if (mask.size() != forw_img.size())
                 cout << "wrong size " << endl;
+            // There are features that are not tracked by KLT
             cv::goodFeaturesToTrack(forw_img, n_pts, MAX_CNT - forw_pts.size(), 0.1, MIN_DIST, mask);
         }
         else
@@ -152,6 +162,8 @@ void FeatureTracker::readImage(const cv::Mat &_img)
 
         ROS_DEBUG("add feature begins");
         TicToc t_a;
+        // The newly added "good features" are assigned -1 ID (will update later).
+        // These are new observation points
         addPoints();
         ROS_DEBUG("selectFeature costs: %fms", t_a.toc());
 
@@ -161,6 +173,48 @@ void FeatureTracker::readImage(const cv::Mat &_img)
     cur_img = forw_img;
     cur_pts = forw_pts;
 }
+
+/*
+                              cv::Ptr<cv::DescriptorExtractor> descriptorDetector = cv::DescriptorExtractor::create("ORB");
+                              
+                             //detector.detect( partOfImageScene, keypoints_scene );
+
+                               std::vector<cv::KeyPoint> keypoints_scene;
+                               std::vector<cv::KeyPoint> keypoints_scene_old;
+                             cv::KeyPoint::convert(cur_pts, keypoints_scene, 100, 1000);
+
+                            // Compute the 128 dimension SIFT descriptor at each keypoint.
+                             // Each row in "descriptors" correspond to the SIFT descriptor for each keypoint
+                             cv::Mat descriptors;
+                              cv::Mat descriptors_old;
+                             descriptorDetector->compute(cur_img, keypoints_scene, descriptors);
+                             std::cout << descriptors.size() << "," << cur_pts.size()<< std::endl;
+                         //detector.detect( partOfImageScene, keypoints_scene );
+
+                             cv::KeyPoint::convert(forw_pts, keypoints_scene_old, 100, 1000);
+
+                            // Compute the 128 dimension SIFT descriptor at each keypoint.
+                             // Each row in "descriptors" correspond to the SIFT descriptor for each keypoint
+                             descriptorDetector->compute(forw_img, keypoints_scene_old, descriptors_old);
+                             std::cout << descriptors_old.size() << "," << forw_pts.size()<< std::endl;
+
+                             cv::BFMatcher matcher(cv::NORM_L2);
+                            std::vector<vector<cv::DMatch> > matches;
+                            matcher.knnMatch(descriptors, descriptors_old, matches,2);
+                            std::vector<cv::DMatch> match1;
+
+                            for(int i=0; i<matches.size(); i++)
+                                {
+                                    if(matches[i][0].distance > matches[i][1].distance * 0.6)
+                                                match1.push_back(matches[i][0]);
+                                   std::cout << "match " << matches[i][0].queryIdx << " and " <<matches[i][0].trainIdx <<  " of distance " << 
+                                   matches[i][0].distance << std::endl;
+                                }
+                                cv::Mat img_matches1;
+                                drawMatches(cur_img, keypoints_scene, forw_img, keypoints_scene_old, match1, img_matches1);
+                                cv::imshow("vis1", img_matches1);
+
+*/
 
 void FeatureTracker::rejectWithF()
 {
@@ -200,6 +254,7 @@ bool FeatureTracker::updateID(unsigned int i)
 {
     if (i < ids.size())
     {
+        // If the current id is not set (==-1), then we set a new id by simply adding 1 to last id
         if (ids[i] == -1)
             ids[i] = n_id++;
         return true;

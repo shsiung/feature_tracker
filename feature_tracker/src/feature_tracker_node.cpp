@@ -9,6 +9,7 @@
 #include <message_filters/sync_policies/approximate_time.h>
 #include <image_transport/image_transport.h> 
 
+
 #include "feature_tracker.h"
 
 #define SHOW_UNDISTORTION 0
@@ -53,6 +54,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
     {
         ROS_DEBUG("processing camera %d", i);
         if (i != 1 || !STEREO_TRACK)
+            // ROW = image height
             trackerData[i].readImage(ptr->image.rowRange(ROW * i, ROW * (i + 1)));
         else
         {
@@ -117,6 +119,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
         }
     }
 
+    // Assign new ids to the new landmarks
     for (unsigned int i = 0;; i++)
     {
         bool completed = false;
@@ -156,6 +159,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
                     p.z = 1;
 
                     feature_points->points.push_back(p);
+
                     id_of_point.values.push_back(p_id * NUM_OF_CAM + i);
                     u_of_point.values.push_back(cur_pts[j].x);
                     v_of_point.values.push_back(cur_pts[j].y);
@@ -206,9 +210,9 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
                     {
                         double len = std::min(1.0, 1.0 * trackerData[i].track_cnt[j] / WINDOW_SIZE);
                         cv::circle(tmp_img, trackerData[i].cur_pts[j], 2, cv::Scalar(255 * (1 - len), 0, 255 * len), 2);
-                        //char name[10];
-                        //sprintf(name, "%d", trackerData[i].ids[j]);
-                        //cv::putText(tmp_img, name, trackerData[i].cur_pts[j], cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 0));
+                        char name[10];
+                        sprintf(name, "%d", trackerData[i].ids[j]);
+                        cv::putText(tmp_img, name, trackerData[i].cur_pts[j], cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 0));
                     }
                 }
                 else
@@ -238,6 +242,21 @@ void test(const sensor_msgs::ImageConstPtr& msgLeft, const sensor_msgs::ImageCon
 {
     const cv::Mat rawLeft(msgLeft->height, msgLeft->width, CV_8UC1, const_cast<uint8_t*>(&msgLeft->data[0]), msgLeft->step);
     const cv::Mat rawRight(msgRight->height, msgRight->width, CV_8UC1, const_cast<uint8_t*>(&msgRight->data[0]), msgRight->step);
+    cv::Size sz1 = rawLeft.size();
+    cv::Size sz2 = rawRight.size();
+
+    cv::Mat im3(sz1.height*2, sz1.width, CV_8UC1);
+    cv::Mat left(im3, cv::Rect(0, 0, sz1.width, sz1.height));
+    rawLeft.copyTo(left);
+    cv::Mat right(im3, cv::Rect(0, sz2.height, sz2.width, sz2.height));
+    rawRight.copyTo(right);
+
+    cv_bridge::CvImage out_msg;
+    out_msg.header   = msgLeft->header; // Same timestamp and tf frame as input image
+    out_msg.encoding =  "mono8"; // Or whatever
+    out_msg.image    = im3; // Your cv::Mat
+
+    img_callback(out_msg.toImageMsg());
 }
 
 int main(int argc, char **argv)
@@ -265,13 +284,13 @@ int main(int argc, char **argv)
         }
     }
 
-    ros::Subscriber sub_img = n.subscribe(IMAGE_TOPIC, 100, img_callback);
+   // ros::Subscriber sub_img = n.subscribe(IMAGE_TOPIC, 100, img_callback);
 
     pub_img = n.advertise<sensor_msgs::PointCloud>("feature", 1000);
     pub_match = n.advertise<sensor_msgs::Image>("feature_img",1000);
 
-    message_filters::Subscriber<sensor_msgs::Image> left_sub(n, "/euroc/left/image_rect", 1);
-    message_filters::Subscriber<sensor_msgs::Image> right_sub(n, "/euroc/right/image_rect", 1);
+    message_filters::Subscriber<sensor_msgs::Image> left_sub(n, "/narrow_stereo/left/image_rect", 1);
+    message_filters::Subscriber<sensor_msgs::Image> right_sub(n, "/narrow_stereo/right/image_rect", 1);
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> sync_pol;
     message_filters::Synchronizer<sync_pol> sync(sync_pol(10), left_sub,right_sub);
     sync.registerCallback(boost::bind(&test,_1,_2));

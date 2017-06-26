@@ -936,6 +936,7 @@ CataCamera::setParameters(const CataCamera::Parameters& parameters)
         (mParameters.p1() == 0.0) &&
         (mParameters.p2() == 0.0))
     {
+        std::cout << " ======== NO DISTORTION" << std::endl;
         m_noDistortion = true;
     }
     else

@@ -1,14 +1,20 @@
 !_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
-first_image_flag	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^bool first_image_flag = true;$/;"	v	language:C++
-first_image_time	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^double first_image_time;$/;"	v	language:C++
-img_buf	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^queue<sensor_msgs::ImageConstPtr> img_buf;$/;"	v	language:C++
-img_callback	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^void img_callback(const sensor_msgs::ImageConstPtr &img_msg)$/;"	f	language:C++
-main	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^int main(int argc, char **argv)$/;"	f	language:C++
-pub_count	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^int pub_count = 1;$/;"	v	language:C++
-pub_img	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^ros::Publisher pub_img,pub_match;$/;"	v	language:C++
-pub_match	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^ros::Publisher pub_img,pub_match;$/;"	v	language:C++
-r_err	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^vector<float> r_err;$/;"	v	language:C++
-r_status	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^vector<uchar> r_status;$/;"	v	language:C++
-SHOW_UNDISTORTION	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	14;"	d	language:C++	file:
-test	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^void test(const sensor_msgs::ImageConstPtr& msgLeft, const sensor_msgs::ImageConstPtr& msgRight)$/;"	f	language:C++
-trackerData	/home/shsiung/HKUST/src/VINS-Mono/feature_tracker/src/feature_tracker_node.cpp	/^FeatureTracker trackerData[NUM_OF_CAM];$/;"	v	language:C++
+CAM_NAMES	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^std::vector<std::string> CAM_NAMES;$/;"	v	language:C++
+COL	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int COL;$/;"	v	language:C++
+EQUALIZE	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int EQUALIZE;$/;"	v	language:C++
+FISHEYE	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int FISHEYE;$/;"	v	language:C++
+FISHEYE_MASK	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^std::string FISHEYE_MASK;$/;"	v	language:C++
+FOCAL_LENGTH	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int FOCAL_LENGTH;$/;"	v	language:C++
+FREQ	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int FREQ;$/;"	v	language:C++
+F_THRESHOLD	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^double F_THRESHOLD;$/;"	v	language:C++
+IMAGE_TOPIC	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^std::string IMAGE_TOPIC;$/;"	v	language:C++
+IMU_TOPIC	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^std::string IMU_TOPIC;$/;"	v	language:C++
+MAX_CNT	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int MAX_CNT;$/;"	v	language:C++
+MIN_DIST	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int MIN_DIST;$/;"	v	language:C++
+PUB_THIS_FRAME	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^bool PUB_THIS_FRAME;$/;"	v	language:C++
+readParam	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^T readParam(ros::NodeHandle &n, std::string name)$/;"	f	language:C++
+readParameters	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^void readParameters(ros::NodeHandle &n)$/;"	f	language:C++
+ROW	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int ROW;$/;"	v	language:C++
+SHOW_TRACK	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int SHOW_TRACK;$/;"	v	language:C++
+STEREO_TRACK	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int STEREO_TRACK;$/;"	v	language:C++
+WINDOW_SIZE	/home/shsiung/HKUST/src/feature_tracker/feature_tracker/src/parameters.cpp	/^int WINDOW_SIZE;$/;"	v	language:C++

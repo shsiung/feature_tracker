@@ -11,11 +11,15 @@ camera_name: leftcamera
 image_width: 752
 image_height: 480
 distortion_parameters:
-   k1: -2.917e-01
-   k2: 8.228e-02
-   p1: 5.333e-05
-   p2: -1.578e-04
+   k1: 0
+   k2: 0
+   p1: 0
+   p2: 0
 projection_parameters:
+   # fx: 435.2047
+   # fy: 435.2047
+   # cx: 367.4517
+   # cy: 252.2009
    fx: 4.616e+02
    fy: 4.603e+02
    cx: 3.630e+02
@@ -45,8 +49,8 @@ extrinsicTranslation: !!opencv-matrix
    data: [-0.02,-0.06, 0.01]
 
 #feature traker paprameters
-max_cnt: 150            # max feature number in feature tracking
-min_dist: 30            # min distance between two features 
+max_cnt: 400            # max feature number in feature tracking
+min_dist: 10            # min distance between two features 
 freq: 10                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image 
 F_threshold: 1.0        # ransac threshold (pixel)
 show_track: 1           # publish tracking image as topic

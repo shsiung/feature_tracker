@@ -1,9 +1,17 @@
 <launch>
-    <arg name="config_path" default = "$(find feature_tracker)/../config/euroc/euroc_config.yaml" />
+    <arg name="config_path" default = "$(find feature_tracker)/../config/euroc/euroc_left.yaml" />
+    <arg name="config_path1" default = "$(find feature_tracker)/../config/euroc/euroc_right.yaml" />
 	  <arg name="vins_path" default = "$(find feature_tracker)/../config/../" />
-    
+
+    <group ns="/narrow_stereo" >
+	<node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc"/>
+	<param name="approximate_sync" value="true"/> 
+	<param name="queue_size" value="10"/>
+	</group>
+
     <node name="feature_tracker" pkg="feature_tracker" type="feature_tracker" output="log">
         <param name="config_file" type="string" value="$(arg config_path)" />
+        <param name="config_file1" type="string" value="$(arg config_path1)" />
         <param name="vins_folder" type="string" value="$(arg vins_path)" />
     </node>
 

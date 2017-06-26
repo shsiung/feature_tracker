@@ -93,6 +93,7 @@ CameraFactory::generateCameraFromYamlFile(const std::string& filename)
 
     if (!fs.isOpened())
     {
+        std::cout << " ============= config file is not opened" << std::endl;
         return CameraPtr();
     }
 
@@ -139,7 +140,7 @@ CameraFactory::generateCameraFromYamlFile(const std::string& filename)
     case Camera::PINHOLE:
     {
         PinholeCameraPtr camera(new PinholeCamera);
-
+        std::cout << " PINHOLE" << std::endl;
         PinholeCamera::Parameters params = camera->getParameters();
         params.readFromYamlFile(filename);
         camera->setParameters(params);
